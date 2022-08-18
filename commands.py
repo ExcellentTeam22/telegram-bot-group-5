@@ -9,4 +9,11 @@ def palindrome(number) -> str:
     return number == number[::-1]
 
 
-COMMANDS = {"/prime": "PrimeFunction", "/factorial": factorial, "/sqrt": "sqrtFunction", "/palindrom": palindrome}
+def is_prime(n: int) -> bool:
+    for i in range(2, n):
+        if (n % i) == 0:
+            return False
+    return True
+
+
+COMMANDS = {"/prime": is_prime(), "/factorial": factorial, "/sqrt": "sqrtFunction", "/palindrom": palindrome}
