@@ -4,7 +4,7 @@ import commands
 
 app = Flask(__name__)
 TOKEN = ''
-NGROK = 'https://bab6-82-80-173-170.eu.ngrok.io'
+NGROK = 'https://302a-82-80-173-170.eu.ngrok.io'
 TELEGRAM_INIT_WEBHOOK_URL = 'https://api.telegram.org/bot{}/setWebhook?url={}/message'.format(
     TOKEN, NGROK)
 requests.get(TELEGRAM_INIT_WEBHOOK_URL)
@@ -20,11 +20,12 @@ def handle_message():
     json = request.get_json()
     chat_id = json['message']['chat']['id']
     message = json['message']['text']
-    res = requests.get("https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'"
-                       .format(TOKEN, chat_id, message))
+    message = message.split()
+    res = commands.COMMANDS.get(message[0])(message[1])
+    requests.get("https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'"
+                 .format(TOKEN, chat_id, res))
     return Response("success")
 
 
 if __name__ == '__main__':
     app.run(port=5002)
-
