@@ -16,4 +16,4 @@ def is_prime(n: int) -> bool:
     return True
 
 
-COMMANDS = {"/prime": is_prime(), "/factorial": factorial, "/sqrt": "sqrtFunction", "/palindrom": palindrome}
+COMMANDS = {"/prime": is_prime, "/factorial": factorial, "/sqrt": "sqrtFunction", "/palindrom": palindrome}
