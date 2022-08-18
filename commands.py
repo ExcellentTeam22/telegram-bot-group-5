@@ -1,0 +1,1 @@
+commands = {"/prime": "PrimeFunction", "/factorial": "Factorial", "/sqrt" : "sqrtFunction"}
