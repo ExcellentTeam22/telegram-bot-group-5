@@ -1,12 +1,16 @@
+import io
+
 from flask import Flask, Response, request
 import face_recognition
 import requests
+import numpy as np
+from PIL import Image
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
-TOKEN = ''
-NGROK = 'https://0f55-82-80-173-170.eu.ngrok.io'
+TOKEN = '5696168580:AAHuXW8Jd0lZjYROK4cgpPEfEsOXhOxbEOE'
+NGROK = 'https://ea35-82-80-173-170.eu.ngrok.io'
 TELEGRAM_INIT_WEBHOOK_URL = 'https://api.telegram.org/bot{}/setWebhook?url={}/message'.format(TOKEN, NGROK)
 requests.get(TELEGRAM_INIT_WEBHOOK_URL)
 
@@ -27,7 +31,9 @@ def handle_message():
     pic_file_path = pic.json()['result']['file_path']
     downloaded_pic = requests.get('https://api.telegram.org/file/bot{}/{}'.format(TOKEN, pic_file_path)).content
     known_face = face_recognition.face_encodings(face_recognition.load_image_file("resources/4.jpg"))[0]
-    unknown_faces = face_recognition.face_encodings(face_recognition.load_image_file(downloaded_pic))
+    image = Image.open(io.BytesIO(downloaded_pic))
+    pic = np.array(image)
+    unknown_faces = face_recognition.face_encodings(pic)
     match_results = any(unknown_face for unknown_face in unknown_faces
                         if face_recognition.compare_faces([known_face], unknown_face))
     res = requests.get("https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'".format(TOKEN, chat_id,
