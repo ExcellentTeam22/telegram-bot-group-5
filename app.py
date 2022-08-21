@@ -10,7 +10,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 TOKEN = '5696168580:AAHuXW8Jd0lZjYROK4cgpPEfEsOXhOxbEOE'
-NGROK = 'https://ea35-82-80-173-170.eu.ngrok.io'
+NGROK = 'https://c0a8-82-80-173-170.eu.ngrok.io'
 TELEGRAM_INIT_WEBHOOK_URL = 'https://api.telegram.org/bot{}/setWebhook?url={}/message'.format(TOKEN, NGROK)
 requests.get(TELEGRAM_INIT_WEBHOOK_URL)
 
@@ -34,11 +34,11 @@ def handle_message():
     image = Image.open(io.BytesIO(downloaded_pic))
     pic = np.array(image)
     unknown_faces = face_recognition.face_encodings(pic)
-    match_results = any(unknown_face for unknown_face in unknown_faces
-                        if face_recognition.compare_faces([known_face], unknown_face))
+    match_results = [unknown_face for unknown_face in unknown_faces
+                        if face_recognition.compare_faces([known_face], unknown_face)]
     res = requests.get("https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'".format(TOKEN, chat_id,
                                                                                                "ANI 0-5-2-5-3-8-1-6-4-8"
-                                                                                               if match_results else "MI ZOT?!"))
+                                                                                               if len(match_results) >= 1 else "MI ZOT?!"))
     return Response("success")
 
 
