@@ -5,7 +5,7 @@ import requests
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
-TOKEN = '5696168580:AAHuXW8Jd0lZjYROK4cgpPEfEsOXhOxbEOE'
+TOKEN = ''
 NGROK = 'https://0f55-82-80-173-170.eu.ngrok.io'
 TELEGRAM_INIT_WEBHOOK_URL = 'https://api.telegram.org/bot{}/setWebhook?url={}/message'.format(TOKEN, NGROK)
 requests.get(TELEGRAM_INIT_WEBHOOK_URL)
